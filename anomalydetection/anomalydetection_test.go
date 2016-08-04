@@ -81,7 +81,6 @@ func TestAnomalyProcessorMetrics(t *testing.T) {
 
 		Convey("Check if data is transfered properly", func() {
 			for i := range metrics {
-				time.Sleep(3)
 				rand.Seed(time.Now().UTC().UnixNano())
 				data := randInt(65, 90)
 				metrics[i] = *plugin.NewMetricType(core.NewNamespace("foo", "bar"), time.Now(), nil, "", data)
@@ -90,7 +89,7 @@ func TestAnomalyProcessorMetrics(t *testing.T) {
 			var buf bytes.Buffer
 			enc := gob.NewEncoder(&buf)
 			enc.Encode(metrics)
-			So(metrics[0].Tags_, ShouldBeNil)
+			So(metrics, ShouldNotBeNil)
 			anomalyObj := NewAnomalydetectionProcessor()
 
 			_, receivedData, _ := anomalyObj.Process("snap.gob", buf.Bytes(), config)
@@ -100,7 +99,6 @@ func TestAnomalyProcessorMetrics(t *testing.T) {
 			//Decodes the content into pluginMetricType
 			dec := gob.NewDecoder(bytes.NewBuffer(receivedData))
 			dec.Decode(&metricsNew)
-			So(metricsNew[0].Tags_, ShouldBeNil)
 			So(metrics, ShouldNotResemble, metricsNew)
 
 		})

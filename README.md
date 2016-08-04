@@ -7,14 +7,14 @@ snap plugin intended to process data and hightlight outliers
   * [Configuration and Usage](configuration-and-usage)
 2. [Documentation](#documentation)
   * [Examples](#examples)
-  * [Roadmap] (#roadmap)
-3. [Community Support](#community-support)
-4. [Contributing](#contributing)
-5. [License](#license)
-6. [Acknowledgements](#acknowledgements)
+3. [Roadmap] (#roadmap)
+4. [Community Support](#community-support)
+5. [Contributing](#contributing)
+6. [License](#license)
+7. [Acknowledgements](#acknowledgements)
 
 ### System Requirements
-* Plugin supports only Linux systems
+* Plugin supports Linux/MacOS/*BSD systems
 
 ### Installation
 #### Download anomalydetection plugin binary:
@@ -39,7 +39,13 @@ This builds the plugin in `/build/rootfs`
 `export SNAP_PATH=$GOPATH/src/github.com/intelsdi-x/snap/build`
 
 ## Documentation
-[Tukey Method](http://datapigtechnologies.com/blog/index.php/highlighting-outliers-in-your-data-with-the-tukey-method/)
+
+The intention of this plugin is to reduce the amount of data that needs to be transmitted without compromising the information that can be gained from potential usages of the data. 
+An simple implementation via the Tukey Filter examines each window of data, and transmits the full window if a potential anomaly is detected.
+However, it may be that some activity before and/or after the event could be additionally relevant to understand the potential anomaly, outside of the window of data under test, and to achieve statistical significance, 
+therefore the sample size for study needs to be selected to assure adequate results.
+
+![anomaly-detection-picture-grafana](https://raw.githubusercontent.com/intelsdi-x/snap-plugin-processor-anomalydetection/master/anomaly.png)
 
 ### Examples
 Example running psutil plugin, passthru processor, and writing data into an csv file.
@@ -57,7 +63,7 @@ In another terminal window:
 Load collector and processor plugins
 ```
 $ snapctl plugin load $SNAP_PSUTIL_PLUGIN/build/rootfs/snap-plugin-collector-psutil
-$ snapctl plugin load $SNAP/build/plugin/snap-publisher-file
+$ snapctl plugin load $SNAP/build/plugin/snap-plugin-publisher-file
 $ snapctl plugin load $SNAP_ANOMALYDETECTION_PLUGIN/rootfs/plugin/snap-plugin-processor-anomalydetection
 ```
 
@@ -96,7 +102,7 @@ Configure Factor value, "Factor": 1.5 indicates an "outlier", and "Factor": 3.0 
                     "process": null,
                     "publish": [
                         {
-                            "plugin_name": "influx",
+                            "plugin_name": "file",
                             "config": {
                                 "file": "/tmp/published"
                             }
@@ -109,8 +115,9 @@ Configure Factor value, "Factor": 1.5 indicates an "outlier", and "Factor": 3.0 
 }
 ```
 
-### Roadmap
-There isn't a current roadmap for this plugin, but it is in active development. As we launch this plugin, we do not have any outstanding requirements for the next release.
+## Roadmap
+
+1. Apply power analysis concept to help determine the sample size. while many techniques are possible and may need to be explored for specific , power analysis provides a reasonable out-of-the-box starting point.  
 
 If you have a feature request, please add it as an [issue](https://github.com/intelsdi-x/snap-plugin-processor-anomalydetection/issues/new) and/or submit a [pull request](https://github.com/intelsdi-x/snap-plugin-processor-anomalydetection/pulls).
 
