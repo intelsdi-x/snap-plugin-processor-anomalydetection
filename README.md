@@ -1,6 +1,9 @@
 # snap plugin processor - anomalydetection
 snap plugin intended to process data and hightlight outliers
 
+[![Build Status](https://travis-ci.com/intelsdi-x/snap-plugin-processor-anomalydetection.svg?token=7VGVFJK6WhZoj2nbHxaz&branch=master)](https://travis-ci.org/intelsdi-x/snap-plugin-processor-anomalydetection)
+[![Go Report Card](https://goreportcard.com/badge/intelsdi-x/snap-plugin-processor-anomalydetection)](https://goreportcard.com/report/intelsdi-x/snap-plugin-processor-anomalydetection)
+
 1. [Getting Started](#getting-started)
   * [System Requirements](#system-requirements)
   * [Installation](#installation)
@@ -45,7 +48,7 @@ An simple implementation via the Tukey Filter examines each window of data, and 
 However, it may be that some activity before and/or after the event could be additionally relevant to understand the potential anomaly, outside of the window of data under test, and to achieve statistical significance, 
 therefore the sample size for study needs to be selected to assure adequate results.
 
-![anomaly-detection-picture-grafana](https://raw.githubusercontent.com/intelsdi-x/snap-plugin-processor-anomalydetection/blob/master/anomaly.png)
+![anomaly-detection-picture-grafana](https://raw.githubusercontent.com/intelsdi-x/snap-plugin-processor-anomalydetection/master/anomaly.png)
 
 ### Examples
 Example running psutil plugin, passthru processor, and writing data into an csv file.
