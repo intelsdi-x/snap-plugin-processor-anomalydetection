@@ -1,7 +1,7 @@
 # snap plugin processor - anomalydetection
 snap plugin intended to process data and hightlight outliers
 
-[![Build Status](https://travis-ci.com/intelsdi-x/snap-plugin-processor-anomalydetection.svg?token=7VGVFJK6WhZoj2nbHxaz&branch=master)](https://travis-ci.org/intelsdi-x/snap-plugin-processor-anomalydetection)
+[![Build Status](https://travis-ci.org/intelsdi-x/snap-plugin-processor-anomalydetection.svg?branch=master)](https://travis-ci.org/intelsdi-x/snap-plugin-processor-anomalydetection)
 [![Go Report Card](https://goreportcard.com/badge/intelsdi-x/snap-plugin-processor-anomalydetection)](https://goreportcard.com/report/intelsdi-x/snap-plugin-processor-anomalydetection)
 
 1. [Getting Started](#getting-started)

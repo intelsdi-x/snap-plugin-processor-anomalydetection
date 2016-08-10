@@ -81,7 +81,7 @@ func (p *anomalyDetectionProcessor) addToBuffer(m plugin.MetricType, logger *log
 			Metrics: vMet,
 		}
 	}
-	logger.Debug("Buffer lenght: ", len(p.BufferMetric.Buffer[ns].Metrics))
+	logger.Debug("Buffer length: ", len(p.BufferMetric.Buffer[ns].Metrics))
 	return nil
 
 }
