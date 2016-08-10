@@ -79,7 +79,7 @@ func TestAnomalyProcessorMetrics(t *testing.T) {
 		config["BufLength"] = ctypes.ConfigValueInt{Value: 10}
 		config["Factor"] = ctypes.ConfigValueFloat{Value: 0.8}
 
-		Convey("Check if data is transfered properly", func() {
+		Convey("Check if data is transferred properly", func() {
 			for i := range metrics {
 				rand.Seed(time.Now().UTC().UnixNano())
 				data := randInt(65, 90)
