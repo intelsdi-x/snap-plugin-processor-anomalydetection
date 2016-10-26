@@ -22,3 +22,14 @@ _testmain.go
 *.exe
 *.test
 *.prof
+
+# Output of the go coverage tool
+*.out
+profile.cov
+
+# we don't vendor godep _workspace
+**/Godeps/_workspace/**
+vendor/
+
+# ignore build artifacts
+build/
