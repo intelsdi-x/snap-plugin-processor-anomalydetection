@@ -1,5 +1,5 @@
-# snap plugin processor - anomalydetection
-snap plugin intended to process data and hightlight outliers
+# Snap plugin processor - anomalydetection
+Snap plugin intended to process data and hightlight outliers
 
 [![Build Status](https://travis-ci.org/intelsdi-x/snap-plugin-processor-anomalydetection.svg?branch=master)](https://travis-ci.org/intelsdi-x/snap-plugin-processor-anomalydetection)
 [![Go Report Card](https://goreportcard.com/badge/intelsdi-x/snap-plugin-processor-anomalydetection)](https://goreportcard.com/report/intelsdi-x/snap-plugin-processor-anomalydetection)
@@ -21,7 +21,7 @@ snap plugin intended to process data and hightlight outliers
 
 ### Installation
 #### Download anomalydetection plugin binary:
-You can get the pre-built binaries for your OS and architecture at snap's [Github Releases](https://github.com/intelsdi-x/snap/releases) page.
+You can get the pre-built binaries for your OS and architecture from the plugin's [GitHub Releases](https://github.com/intelsdi-x/snap-plugin-processor-anomalydetection/releases) page. Download the plugin from the latest release and load it into `snapd` (`/opt/snap/plugins` is the default location for Snap packages).
 
 #### To build the plugin binary:
 Fork https://github.com/intelsdi-x/snap-plugin-processor-anomalydetection
@@ -34,12 +34,10 @@ Build the plugin by running make in repo:
 ```
 $ make
 ```
-This builds the plugin in `/build/rootfs`
+This builds the plugin in `./build`
 
 ### Configuration and Usage
-* Set up the [snap framework](https://github.com/intelsdi-x/snap/blob/master/README.md#getting-started)
-* Ensure `$SNAP_PATH` is exported
-`export SNAP_PATH=$GOPATH/src/github.com/intelsdi-x/snap/build`
+* Set up the [Snap framework](https://github.com/intelsdi-x/snap#getting-started)
 
 ## Documentation
 
@@ -51,11 +49,11 @@ therefore the sample size for study needs to be selected to assure adequate resu
 ![anomaly-detection-picture-grafana](https://raw.githubusercontent.com/intelsdi-x/snap-plugin-processor-anomalydetection/master/anomaly.png)
 
 ### Examples
-Example running psutil plugin, passthru processor, and writing data into an csv file.
+Example running psutil plugin, anomalydetection processor, and writing data into a file.
 
-Documentation for snap collector psutil plugin can be found [here](https://github.com/intelsdi-x/snap-plugin-collector-psutil)
+Documentation for Snap collector psutil plugin can be found [here](https://github.com/intelsdi-x/snap-plugin-collector-psutil)
 
-In one terminal window, open the snap daemon :
+In one terminal window, open the Snap daemon :
 ```
 $ snapd -t 0 -l 1
 ```
@@ -63,11 +61,15 @@ The option "-l 1" it is for setting the debugging log level and "-t 0" is for di
 
 In another terminal window:
 
-Load collector and processor plugins
+Download and load collector, processor and publisher plugins
 ```
-$ snapctl plugin load $SNAP_PSUTIL_PLUGIN/build/rootfs/snap-plugin-collector-psutil
-$ snapctl plugin load $SNAP/build/plugin/snap-plugin-publisher-file
-$ snapctl plugin load $SNAP_ANOMALYDETECTION_PLUGIN/rootfs/plugin/snap-plugin-processor-anomalydetection
+$ wget http://snap.ci.snap-telemetry.io/plugins/snap-plugin-collector-psutil/latest/linux/x86_64/snap-plugin-collector-psutil
+$ wget http://snap.ci.snap-telemetry.io/plugins/snap-plugin-processor-anomalydetection/latest/linux/x86_64/snap-plugin-processor-anomalydetection
+$ wget http://snap.ci.snap-telemetry.io/plugins/snap-plugin-publisher-file/latest/linux/x86_64/snap-plugin-publisher-file
+$ chmod 755 snap-plugin-*
+$ snapctl plugin load snap-plugin-collector-psutil
+$ snapctl plugin load snap-plugin-publisher-file
+$ snapctl plugin load snap-plugin-processor-anomalydetection
 ```
 
 See available metrics for your system
@@ -118,6 +120,30 @@ Configure Factor value, "Factor": 1.5 indicates an "outlier", and "Factor": 3.0 
 }
 ```
 
+Start task:
+```
+$ snapctl task create -t sample-psutil-anomaly-task.json
+Using task manifest to create task
+Task created
+ID: 02dd7ff4-8106-47e9-8b86-70067cd0a850
+Name: Task-02dd7ff4-8106-47e9-8b86-70067cd0a850
+State: Running
+```
+
+See realtime output from `snapctl task watch <task_id>` (CTRL+C to exit)
+```
+snapctl task watch 02dd7ff4-8106-47e9-8b86-70067cd0a850
+```
+
+This data is published to a file `/tmp/published` per task specification
+
+Stop task:
+```
+$ snapctl task stop 02dd7ff4-8106-47e9-8b86-70067cd0a850
+Task stopped:
+ID: 02dd7ff4-8106-47e9-8b86-70067cd0a850
+```
+
 ## Roadmap
 
 1. Apply power analysis concept to help determine the sample size. while many techniques are possible and may need to be explored for specific , power analysis provides a reasonable out-of-the-box starting point.  
@@ -125,7 +151,7 @@ Configure Factor value, "Factor": 1.5 indicates an "outlier", and "Factor": 3.0 
 If you have a feature request, please add it as an [issue](https://github.com/intelsdi-x/snap-plugin-processor-anomalydetection/issues/new) and/or submit a [pull request](https://github.com/intelsdi-x/snap-plugin-processor-anomalydetection/pulls).
 
 ## Community Support
-This repository is one of **many** plugins in **snap**, a powerful telemetry framework. See the full project at http://github.com/intelsdi-x/snap To reach out to other users, head to the [main framework](https://github.com/intelsdi-x/snap#community-support)
+This repository is one of **many** plugins in **Snap**, a powerful telemetry framework. See the full project at http://github.com/intelsdi-x/snap To reach out to other users, head to the [main framework](https://github.com/intelsdi-x/snap#community-support)
 
 ## Contributing
 We love contributions!
@@ -133,7 +159,7 @@ We love contributions!
 There's more than one way to give back, from examples to blogs to code updates. See our recommended process in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
-[snap](http://github.com:intelsdi-x/snap), along with this plugin, is an Open Source software released under the Apache 2.0 [License](LICENSE).
+[Snap](http://github.com:intelsdi-x/snap), along with this plugin, is an Open Source software released under the Apache 2.0 [License](LICENSE).
 
 ## Acknowledgements
 
