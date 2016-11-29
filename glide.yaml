@@ -1,0 +1,12 @@
+package: github.com/intelsdi-x/snap-plugin-processor-anomalydetection
+import:
+- package: github.com/Sirupsen/logrus
+- package: github.com/intelsdi-x/snap
+  subpackages:
+  - control/plugin
+  - control/plugin/cpolicy
+  - core/ctypes
+testImport:
+- package: github.com/smartystreets/goconvey
+  subpackages:
+  - convey
