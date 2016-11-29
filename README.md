@@ -77,52 +77,50 @@ See available metrics for your system
 $ snaptel metric list
 ```
 
-Create a task file. For example, sample-psutil-anomaly-task.json:
+Create a task file. For example, psutil-anomalydetection-file.json:
 Configure Factor value, "Factor": 1.5 indicates an "outlier", and "Factor": 3.0 indicates data that is "far out".
 
 ```
 {
-    "version": 1,
-    "schedule": {
-        "type": "simple",
-        "interval": "1s"
-    },
-    "workflow": {
-        "collect": {
-            "metrics": {
-                "/intel/psutil/load/load1": {},
-                "/intel/psutil/load/load5": {},
-                "/intel/psutil/load/load15": {},
-                "/intel/psutil/vm/free": {},
-                "/intel/psutil/vm/used": {}
-            },
-            "process": [
-                {
-                    "plugin_name": "anomalydetection",
-                    "config":
-                        {
-                            "BufLength": 10,
-                            "Factor": 1.5
-                        },
-                    "process": null,
-                    "publish": [
-                        {
-                            "plugin_name": "file",
-                            "config": {
-                                "file": "/tmp/published"
-                            }
-                        }
-                    ]
-                }
-            ]
+  "version": 1,
+  "schedule": {
+    "type": "simple",
+    "interval": "1s"
+  },
+  "workflow": {
+    "collect": {
+      "metrics": {
+        "/intel/psutil/load/load1": {},
+        "/intel/psutil/load/load5": {},
+        "/intel/psutil/load/load15": {},
+        "/intel/psutil/vm/free": {},
+        "/intel/psutil/vm/used": {}
+      },
+      "process": [
+        {
+          "plugin_name": "anomalydetection",
+          "config": {
+            "BufLength": 10,
+            "Factor": 1.5
+          },
+          "publish": [
+            {
+              "plugin_name": "file",
+              "config": {
+                "file": "/tmp/published_anomalydetection.log"
+              }
+            }
+          ]
         }
+      ]
     }
+  }
 }
 ```
 
 Start task:
 ```
-$ snaptel task create -t sample-psutil-anomaly-task.json
+$ snaptel task create -t psutil-anomalydetection-file.json
 Using task manifest to create task
 Task created
 ID: 02dd7ff4-8106-47e9-8b86-70067cd0a850
