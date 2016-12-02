@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "schedule": {
+    "type": "simple",
+    "interval": "1s"
+  },
+  "workflow": {
+    "collect": {
+      "metrics": {
+        "/intel/psutil/net/*/packets_recv": {}
+      },
+      "process": [
+        {
+          "plugin_name": "anomalydetection",
+          "config": {
+            "BufLength": 10,
+            "Factor": 1.5
+          },
+          "publish": [
+            {
+              "plugin_name": "influxdb",
+              "config": {
+                "host": "127.0.0.1",
+                "port": 8086,
+                "database": "snap-dynamic",
+                "user": "admin",
+                "password": "admin"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
