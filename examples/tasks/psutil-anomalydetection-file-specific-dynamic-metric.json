@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "schedule": {
+    "type": "simple",
+    "interval": "1s"
+  },
+  "workflow": {
+    "collect": {
+      "metrics": {
+        "/intel/psutil/net/eno1/packets_recv": {}
+      },
+      "process": [
+        {
+          "plugin_name": "anomalydetection",
+          "config": {
+            "BufLength": 10,
+            "Factor": 1.5
+          },
+          "publish": [
+            {
+              "plugin_name": "file",
+              "config": {
+                "file": "/tmp/published_anomalydetection_specific_dynamic_metric.log"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
