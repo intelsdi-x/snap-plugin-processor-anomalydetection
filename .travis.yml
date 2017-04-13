@@ -2,18 +2,19 @@
 sudo: false
 language: go
 go:
-- 1.6.3
-- 1.7.3
+- 1.7.x
+- 1.8.x
 env:
   global:
   - ORG_PATH=/home/travis/gopath/src/github.com/intelsdi-x
   - SNAP_PLUGIN_SOURCE=/home/travis/gopath/src/github.com/${TRAVIS_REPO_SLUG}
+  - GLIDE_HOME="${HOME}/.glide"
   matrix:
   - TEST_TYPE=small
-  - TEST_TYPE=build
+  - TEST_TYPE: build
 matrix:
   exclude:
-  - go: 1.6.3
+  - go: 1.7.x
     env: TEST_TYPE=build
 before_install:
 - "[[ -d $SNAP_PLUGIN_SOURCE ]] || mkdir -p $ORG_PATH && ln -s $TRAVIS_BUILD_DIR $SNAP_PLUGIN_SOURCE"
@@ -30,9 +31,8 @@ before_deploy:
 - "./scripts/pre_deploy.sh"
 deploy:
 - provider: s3
-  access_key_id: AKIAINMB43VSSPFZISAA
-  secret_access_key:
-    secure: HR6qmfCseb4InR1VQCV+vnanXCgG1W+i4Gh4rpnU+5yFQJQv72AdLsYCViAVwgcfNc8yHl82hMz0vrPeuSGKVHIV1dkKy86PjFDpfs5FwiOW79Y7Q5ELOVtuwaMg6/Ur/8TQlMqyyltITA8o3Bgsslpysmze899L+NIdiIMgLmROKrN4EuslyWtLppJQ8xa///o9Hp1hBgHVAVtvzlpH1Ku/5Jnli82pJ7xCVoW/rTnJ/V//9OqTXS65/sFoz82wpF98H7kF+cFocrfQlfRHZtzh8EzBnSIKeVkSFxmW2JCqPUsgmdF32t78UsaQquQXdGGsDYC0N3D4N4rLCk5SVxxuiXU0uliZRNh1QsM6X3K2C4j+uQbGZHUWQM5+RDMoXKuwVwInYlXK5YCNf8AzQYr8jxAypBXe34WQCuupRdvMWpcvr2MSiOnWsgk10lUETvRuBpMVPKtTKxMUb8iQqsz06mGFwjLRPhEuazEJD3MN9KOesTiEzNU94+gKfUIJ40qdY+t88gxQaNXH9FaMg9jWX9C14XWwTL1UAZXUaRezkjXbDfzpOTbtinaebvdnbqEnHiFa0yaiWyAL0DRt0S66DazUvs2eRwupQDUo9lUzHKZ8xeyFuRKnLI+w7XzdywIKjoFskRkqfXhvoXpt2gzkP1K2wQu/+s2Zwfa8cSM=
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
   bucket: snap.ci.snap-telemetry.io
   region: us-west-2
   skip_cleanup: true
@@ -42,11 +42,10 @@ deploy:
   on:
     repo: intelsdi-x/snap-plugin-processor-anomalydetection
     branch: master
-    condition: $TEST_TYPE = "build" && $TRAVIS_GO_VERSION = "1.7.3"
+    condition: $TEST_TYPE = "build" && $TRAVIS_GO_VERSION =~ ^1\.8(|\.[0-9]+)$
 - provider: s3
-  access_key_id: AKIAINMB43VSSPFZISAA
-  secret_access_key:
-    secure: HR6qmfCseb4InR1VQCV+vnanXCgG1W+i4Gh4rpnU+5yFQJQv72AdLsYCViAVwgcfNc8yHl82hMz0vrPeuSGKVHIV1dkKy86PjFDpfs5FwiOW79Y7Q5ELOVtuwaMg6/Ur/8TQlMqyyltITA8o3Bgsslpysmze899L+NIdiIMgLmROKrN4EuslyWtLppJQ8xa///o9Hp1hBgHVAVtvzlpH1Ku/5Jnli82pJ7xCVoW/rTnJ/V//9OqTXS65/sFoz82wpF98H7kF+cFocrfQlfRHZtzh8EzBnSIKeVkSFxmW2JCqPUsgmdF32t78UsaQquQXdGGsDYC0N3D4N4rLCk5SVxxuiXU0uliZRNh1QsM6X3K2C4j+uQbGZHUWQM5+RDMoXKuwVwInYlXK5YCNf8AzQYr8jxAypBXe34WQCuupRdvMWpcvr2MSiOnWsgk10lUETvRuBpMVPKtTKxMUb8iQqsz06mGFwjLRPhEuazEJD3MN9KOesTiEzNU94+gKfUIJ40qdY+t88gxQaNXH9FaMg9jWX9C14XWwTL1UAZXUaRezkjXbDfzpOTbtinaebvdnbqEnHiFa0yaiWyAL0DRt0S66DazUvs2eRwupQDUo9lUzHKZ8xeyFuRKnLI+w7XzdywIKjoFskRkqfXhvoXpt2gzkP1K2wQu/+s2Zwfa8cSM=
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
   bucket: snap.ci.snap-telemetry.io
   region: us-west-2
   skip_cleanup: true
@@ -56,14 +55,13 @@ deploy:
   on:
     repo: intelsdi-x/snap-plugin-processor-anomalydetection
     tags: true
-    condition: $TEST_TYPE = "build" && $TRAVIS_GO_VERSION = "1.7.3"
+    condition: $TEST_TYPE = "build" && $TRAVIS_GO_VERSION =~ ^1\.8(|\.[0-9]+)$
 - provider: releases
-  api_key:
-    secure: I9GxllmmOFHbKWS176bkHGeaSf3+axWuJAmS4aBgVc2Qv/JEC3v9n/nIu8xR+brGFnVjskrj+zs06iKySu8cud2b5nvldwusG1Da8Rie12D0T7c5Pljs18/oK9MYFTsNvuXM5gS1/vHnK0331hMzYISHc3JIzgVgaBEbL1tojKzX9Ad2m/vIQucEeNczeUv+dvpMhz7uGPIo6QlO1PPkhNIa5mNnhfkROvG6+tgflDETvayhtBFhUbCNk5QZLuCiQLRt5xkj2rO7bBLqCAKArFMadct5qRFKIm5OgRfaWJHWY47ELIKCpSrmVmTGIDZ6H7YfMKWvzec4kOnW5J9nIFTgZFtxVtuwD4IYogYVU3hiht38cPXKc48JIMYSiFaJvDHDBGIazqVrcNPDchzcsbCLS0rnCHbiW5RGJnDv0QjF4kHlMEB6E9SPHXGWV1VE1xEP857aeQQGth/Tt1+PQWo5mIk/Tfkul6bJZjncz0jXUPF+6CN2KkDmFoHL/d4oCxBoH3KHsCc8oh9Ltg3sePn404dQyptOtpLoSntrjYkULw/vmg1l01ODvsc8m4NblRpT/muBx6RsRfI6YyqETOL7Jw3geDKoRg1CIAmudOPagj4oP5Y/xAiaDdX5/+t5flRhtqQIKu/yr7Nyg1ArP20HK/Zv+fkomI5dwLD78D4=
+  api_key: $GITHUB_API_KEY
   file:
     - release/snap-plugin-processor-anomalydetection_linux_x86_64
   skip_cleanup: true
   on:
     repo: intelsdi-x/snap-plugin-processor-anomalydetection
     tags: true
-    condition: $TEST_TYPE = "build" && $TRAVIS_GO_VERSION = "1.7.3"
+    condition: $TEST_TYPE = "build" && $TRAVIS_GO_VERSION =~ ^1\.8(|\.[0-9]+)$
