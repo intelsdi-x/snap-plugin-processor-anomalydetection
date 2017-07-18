@@ -137,7 +137,7 @@ func (p *anomalyDetectionProcessor) GetConfigPolicy() (*cpolicy.ConfigPolicy, er
 	config.Add(r1)
 	r2, err := cpolicy.NewFloatRule("Factor", false, defaultFactor)
 	handleErr(err)
-	r2.Description = "Buffer Length for tukey method "
+	r2.Description = "Sensitivity Factor for scaling"
 	config.Add(r2)
 	cp.Add([]string{""}, config)
 	return cp, nil
