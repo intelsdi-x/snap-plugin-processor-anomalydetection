@@ -1,8 +1,10 @@
-hash: 930c822f212d80200a4148ca97cd2cacadd30142d8de3fc650a2b3ce7006fff8
-updated: 2016-11-29T14:39:58.051495736+01:00
+hash: e700403d5c04a0ae669ed34d2b87b6bb761a6c61b9a0c9b7760b3e0f544a5a5f
+updated: 2017-11-02T06:48:50.828649788+08:00
 imports:
+- name: github.com/asaskevich/govalidator
+  version: 9699ab6b38bee2e02cd3fe8b99ecf67665395c96
 - name: github.com/intelsdi-x/snap
-  version: 668a381e3f603991e35639a02b0492a97cec152f
+  version: 79e1dd457d77c985491c2f4746cbc425fb3dc2dd
   subpackages:
   - control/plugin
   - control/plugin/cpolicy
@@ -13,33 +15,34 @@ imports:
   - core/ctypes
   - core/serror
   - pkg/ctree
+  - pkg/fileutils
   - pkg/schedule
   - pkg/stringutils
   - scheduler/wmap
 - name: github.com/robfig/cron
-  version: 9585fd555638e77bba25f25db5c44b41f264aeb7
-- name: github.com/Sirupsen/logrus
-  version: e400ff7861bce9661cf37c162ce3b7b303baf333
+  version: 32d9c273155a0506d27cf73dd1246e86a470997e
+- name: github.com/sirupsen/logrus
+  version: be52937128b38f1d99787bb476c789e2af1147f1
 - name: golang.org/x/sys
-  version: 30237cf4eefd639b184d1f2cb77a581ea0be8947
+  version: c8bc69bc2db9c57ccf979550bc69655df5039a8a
   subpackages:
   - unix
 - name: gopkg.in/yaml.v2
-  version: a5b47d31c556af34a302ce5d659e6fea44d90de0
+  version: c1cd2254a6dd314c9d73c338c12688c9325d85c6
 testImports:
 - name: github.com/gopherjs/gopherjs
-  version: e34a5cd6a1bc7c4fde759f2d3039852fc68b5fcc
+  version: 4b53e1bddba0e2f734514aeb6c02db652f4c6fe8
   subpackages:
   - js
 - name: github.com/jtolds/gls
   version: 8ddce2a84170772b95dd5d576c48d517b22cac63
 - name: github.com/smartystreets/assertions
-  version: e60cfa771e3f4d18723a4119f1833898c9c62066
+  version: 4ea54c1f28ad3ae597e76607dea3871fa177e263
   subpackages:
   - internal/go-render/render
   - internal/oglematchers
 - name: github.com/smartystreets/goconvey
-  version: 3c2572876754c4669ae7417b219f0b30a29b32c7
+  version: 9e8dc3f972df6c8fcc0375ef492c24d0bb204857
   subpackages:
   - convey
   - convey/gotest

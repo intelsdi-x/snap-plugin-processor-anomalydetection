@@ -1,7 +1,8 @@
 package: github.com/intelsdi-x/snap-plugin-processor-anomalydetection
 import:
-- package: github.com/Sirupsen/logrus
+- package: github.com/sirupsen/logrus
 - package: github.com/intelsdi-x/snap
+  version: ^2.0.0  
   subpackages:
   - control/plugin
   - control/plugin/cpolicy
